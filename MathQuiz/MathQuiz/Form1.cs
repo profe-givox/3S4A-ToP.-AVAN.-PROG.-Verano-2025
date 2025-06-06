@@ -6,5 +6,7 @@ namespace MathQuiz
         {
             InitializeComponent();
         }
+
+       
     }
 }
