@@ -283,6 +283,7 @@
             btnStart.TabIndex = 0;
             btnStart.Text = "Iniciar";
             btnStart.UseVisualStyleBackColor = true;
+            btnStart.Click += btnStart_Click;
             // 
             // Form1
             // 
