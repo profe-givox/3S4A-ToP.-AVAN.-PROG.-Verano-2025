@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             lblTimer = new Label();
             lblTime = new Label();
             lblPlusLeft = new Label();
@@ -51,6 +52,7 @@
             lblDividedRigthLabel = new Label();
             lblDividedLeftLabel = new Label();
             btnStart = new Button();
+            timer1 = new System.Windows.Forms.Timer(components);
             ((System.ComponentModel.ISupportInitialize)nudSumar).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudDifference).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudProduct).BeginInit();
@@ -285,6 +287,10 @@
             btnStart.UseVisualStyleBackColor = true;
             btnStart.Click += btnStart_Click;
             // 
+            // timer1
+            // 
+            timer1.Interval = 1000;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -351,5 +357,6 @@
         private Label lblDividedRigthLabel;
         private Label lblDividedLeftLabel;
         private Button btnStart;
+        private System.Windows.Forms.Timer timer1;
     }
 }
