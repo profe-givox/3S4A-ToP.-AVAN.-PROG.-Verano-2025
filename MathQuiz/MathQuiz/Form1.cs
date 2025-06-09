@@ -1,3 +1,5 @@
+using System.Media;
+
 namespace MathQuiz
 {
     public partial class Form1 : Form
@@ -15,12 +17,25 @@ namespace MathQuiz
             InitializeComponent();
 
             timer1.Tick += new EventHandler(timer1_Tick);
+            nudSumar.Click += new EventHandler(nudSumar_Enter);
+            nudDifference.Click += new EventHandler(nudSumar_Enter);
+            nudProduct.Click += new EventHandler(nudSumar_Enter);
+            nudDivision.Click += new EventHandler(nudSumar_Enter);
+            nudDifference.Enter += new EventHandler(nudSumar_Enter);
+            nudProduct.Enter += new EventHandler(nudSumar_Enter);
+            nudDivision.Enter += new EventHandler(nudSumar_Enter);
+
+            nudDifference.ValueChanged += new EventHandler(nudSumar_ValueChanged);
+            nudDivision.ValueChanged += new EventHandler(nudSumar_ValueChanged);
+            nudProduct.ValueChanged += new EventHandler(nudSumar_ValueChanged);
+
         }
 
         private void timer1_Tick(object? sender, EventArgs e)
         {
             if (CheckTheAnswer())
             {
+                lblTimer.BackColor = Color.Transparent;
                 // If CheckTheAnswer() returns true, then the user 
                 // got the answer right. Stop the timer  
                 // and show a MessageBox.
@@ -31,6 +46,10 @@ namespace MathQuiz
             }
             else if (timeLeft > 0)
             {
+                if (timeLeft == 6)
+                {
+                    lblTimer.BackColor = Color.Red;
+                }
                 // If CheckTheAnswer() returns false, keep counting
                 // down. Decrease the time left by one second and 
                 // display the new time left by updating the 
@@ -43,6 +62,7 @@ namespace MathQuiz
                 // If the user ran out of time, stop the timer, show
                 // a MessageBox, and fill in the answers.
                 timer1.Stop();
+                lblTimer.BackColor = Color.Transparent;
                 lblTimer.Text = "Time's up!";
                 MessageBox.Show("You didn't finish in time.", "Sorry!");
                 nudSumar.Value = addend1 + addend2;
@@ -54,9 +74,9 @@ namespace MathQuiz
 
         }
 
-            // These integer variables store the numbers 
-            // for the addition problem. 
-            int addend1;
+        // These integer variables store the numbers 
+        // for the addition problem. 
+        int addend1;
         int addend2;
         public void startTheQuiz()
         {
@@ -118,6 +138,7 @@ namespace MathQuiz
         {
             this.startTheQuiz();
             btnStart.Enabled = false;
+            
         }
 
         /// <summary>
@@ -138,10 +159,49 @@ namespace MathQuiz
                 && (minuend - subtrahend == nudDifference.Value)
                 && (multiplicand * multiplier == nudProduct.Value)
                 && (dividend / divisor == nudDivision.Value);
-            
+
 
         }
 
+        private void nudSumar_Enter(object sender, EventArgs e)
+        {
+            NumericUpDown nud = sender as NumericUpDown;
 
+            if (nud != null)
+            {
+
+                nud.Select(0, nud.Value.ToString().Length);
+            }
+
+        }
+
+        private void nudSumar_ValueChanged(object sender, EventArgs e)
+        {
+
+            if (sender.Equals(nudSumar))
+            {
+                if (addend1 + addend2 == nudSumar.Value)
+                {
+                    System.Media.SystemSounds.Hand.Play();
+                }
+            }
+            else if (sender.Equals(nudDifference))
+            {
+                if (minuend - subtrahend == nudDifference.Value)
+                {
+                    System.Media.SystemSounds.Hand.Play();
+                }
+            }
+            else if (sender.Equals(nudProduct))
+            {
+                if (multiplicand * multiplier == nudProduct.Value)
+                {
+                    System.Media.SystemSounds.Hand.Play();
+                }
+            }
+            else if (dividend / divisor == nudDivision.Value) {
+                System.Media.SystemSounds.Hand.Play();
+            }
+        }
     }
 }

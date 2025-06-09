@@ -127,6 +127,8 @@
             nudSumar.Name = "nudSumar";
             nudSumar.Size = new Size(100, 55);
             nudSumar.TabIndex = 1;
+            nudSumar.ValueChanged += nudSumar_ValueChanged;
+            nudSumar.Enter += nudSumar_Enter;
             // 
             // nudDifference
             // 
