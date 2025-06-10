@@ -59,6 +59,7 @@
             btnClear.TabIndex = 2;
             btnClear.Text = "↺";
             btnClear.UseVisualStyleBackColor = true;
+            btnClear.Click += btnClear_Click;
             // 
             // ClerableTextBox
             // 
