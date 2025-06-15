@@ -1,14 +1,9 @@
-﻿
-
-// See https://aka.ms/new-console-template for more information
+﻿// See https://aka.ms/new-console-template for more information
 using EFGetStarted;
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-
-
- 
  using var db = new BloggingContext();
 // Note: This sample requires the database to be created before running.
 Console.WriteLine($"Database path: {db.DbPath}.");
