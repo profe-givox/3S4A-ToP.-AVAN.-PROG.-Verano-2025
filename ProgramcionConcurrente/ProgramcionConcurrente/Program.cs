@@ -57,21 +57,24 @@ using ProgramcionConcurrente;
 //Console.WriteLine(
 //    "Independent task has completed; main thread ends.");
 
-// Interrupt a sleeping thread.
-var sleepingThread = new Thread(ExamplePauseInterrupt.SleepIndefinitely);
-sleepingThread.Name = "Sleeping";
-sleepingThread.Start();
-Thread.Sleep(2000);
-sleepingThread.Interrupt();
+//// Interrupt a sleeping thread.
+//var sleepingThread = new Thread(ExamplePauseInterrupt.SleepIndefinitely);
+//sleepingThread.Name = "Sleeping";
+//sleepingThread.Start();
+//Thread.Sleep(2000);
+//sleepingThread.Interrupt();
 
-Console.WriteLine($"Thread '{Thread.CurrentThread.Name}' .");
-Thread.Sleep(1000);
+//Console.WriteLine($"Thread '{Thread.CurrentThread.Name}' .");
+//Thread.Sleep(1000);
 
-sleepingThread = new Thread(ExamplePauseInterrupt.SleepIndefinitely);
-sleepingThread.Name = "Sleeping2";
-sleepingThread.Start();
-Thread.Sleep(2000);
-sleepingThread.Abort();
+//sleepingThread = new Thread(ExamplePauseInterrupt.SleepIndefinitely);
+//sleepingThread.Name = "Sleeping2";
+//sleepingThread.Start();
+//Thread.Sleep(2000);
+//sleepingThread.Abort();
+
+var schedulingThreads = new SchedulingThreads();
+schedulingThreads.RunMultipleThreadsOnDifferentPriorities();
 
 
 // The example displays the output like the following:

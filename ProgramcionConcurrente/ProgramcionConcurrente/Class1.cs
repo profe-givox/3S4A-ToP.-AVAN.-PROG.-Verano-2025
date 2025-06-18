@@ -115,7 +115,7 @@ namespace ProgramcionConcurrente
             {
                 Thread.Sleep(Timeout.Infinite);
             }
-            catch (ThreadInterruptedException)
+            catch (ThreadInterruptedException)  
             {
                 Console.WriteLine($"Thread '{Thread.CurrentThread.Name}' awoken.");
             }
