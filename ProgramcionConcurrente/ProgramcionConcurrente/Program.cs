@@ -73,8 +73,11 @@ using ProgramcionConcurrente;
 //Thread.Sleep(2000);
 //sleepingThread.Abort();
 
-var schedulingThreads = new SchedulingThreads();
-schedulingThreads.RunMultipleThreadsOnDifferentPriorities();
+////Programacion de hilos
+//var schedulingThreads = new SchedulingThreads();
+//schedulingThreads.RunMultipleThreadsOnDifferentPriorities();
+
+await PrepDesayunoAsincrono.prepararDesayunoAsicronoTareas();
 
 
 // The example displays the output like the following:
