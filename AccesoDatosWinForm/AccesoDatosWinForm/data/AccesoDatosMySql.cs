@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace AccesoDatosWinForm.data
 {
-    internal class AccesoDatosMySql
+    class AccesoDatosMySql
     {
         MySqlConnection _connection ;
         MySqlCommand _command;
@@ -38,6 +38,7 @@ namespace AccesoDatosWinForm.data
                 $"Port={port};";
 
             _connection = new MySqlConnection(connectionString);
+            _connection.Open();
 
             MySqlConnectionStringBuilder builderConnString =
                 new MySqlConnectionStringBuilder();
