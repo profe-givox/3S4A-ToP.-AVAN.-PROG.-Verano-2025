@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,24 +9,62 @@ using MySql.Data.MySqlClient;
 
 namespace AccesoDatosWinForm.data
 {
-    class AccesoDatosMySql
+    class AccesoDatosMySql : IDisposable   
     {
         MySqlConnection _connection ;
         MySqlCommand _command;
         MySqlDataReader _reader;
+        MySqlDataAdapter _adapter;
+        private bool disposedValue;
 
-        public int ejecutarSentencia(string sentenciaSQL) {
+        private void inicicializarCommand(string query, Dictionary<string,object> prmts  ) { 
+            _command = new MySqlCommand(query, _connection );
+            if (prmts != null && prmts.Count > 0)
+            {
+                foreach (var prm in prmts)
+                {
+                    _command.Parameters.AddWithValue(prm.Key, prm.Value);
+                }
+            }
+        }
+
+        public DataTable queryTable(string query , Dictionary<string,object> prmts) {
+
+            inicicializarCommand(query, prmts);
+            _adapter = new MySqlDataAdapter(_command);
+            var dataTable = new DataTable();
+            _adapter.Fill(dataTable);
+            return dataTable;
+        } 
+
+        public int ejecutarSentencia(string sentenciaSQL, Dictionary<string, object> pmts) {
 
             if (_connection == null)
             {
                 throw new InvalidOperationException("La conexión no está inicializada.");
             }
-            _command = new MySqlCommand(sentenciaSQL, _connection);
-            return _command.ExecuteNonQuery();
+            inicicializarCommand(sentenciaSQL, pmts);
+
+            return  _command.ExecuteNonQuery();
         }
 
-        public MySqlDataReader ejecutarQuery(string consulta) { 
-            _command = new MySqlCommand(consulta, _connection);
+        public async Task< int> ejecutarSentenciaAsync(string sentenciaSQL, Dictionary<string, object> pmts)
+        {
+
+            if (_connection == null)
+            {
+                throw new InvalidOperationException("La conexión no está inicializada.");
+            }
+            inicicializarCommand(sentenciaSQL, pmts);
+
+            var tareaA = _command.ExecuteNonQueryAsync();
+
+            return  await tareaA; // Espera a que se complete la tarea asincrónica
+        }
+
+        public MySqlDataReader ejecutarQuery(string consulta, Dictionary<string, object> pmts) {
+            
+            inicicializarCommand(consulta, pmts);
             return _command.ExecuteReader();
         }
 
@@ -52,6 +91,57 @@ namespace AccesoDatosWinForm.data
             var otraCAdena = 
                 builderConnString.ConnectionString;
 
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: eliminar el estado administrado (objetos administrados)
+                    if (_reader != null)
+                    {
+                        _reader.Close();
+                        _reader.Dispose();
+                        _reader = null;
+                    }
+                    if (_command != null)
+                    {
+                        _command.Dispose();
+                        _command = null;
+                    }
+                    if (_adapter != null)
+                    {
+                        _adapter.Dispose();
+                        _adapter = null;
+                    }
+                    if (_connection != null)
+                    {
+                        _connection.Close();
+                        _connection.Dispose();
+                        _connection = null;
+                    }
+                }
+
+                // TODO: liberar los recursos no administrados (objetos no administrados) y reemplazar el finalizador
+                // TODO: establecer los campos grandes como NULL
+                disposedValue = true;
+            }
+        }
+
+        // // TODO: reemplazar el finalizador solo si "Dispose(bool disposing)" tiene código para liberar los recursos no administrados
+        // ~AccesoDatosMySql()
+        // {
+        //     // No cambie este código. Coloque el código de limpieza en el método "Dispose(bool disposing)".
+        //     Dispose(disposing: false);
+        // }
+
+        void IDisposable.Dispose()
+        {
+            // No cambie este código. Coloque el código de limpieza en el método "Dispose(bool disposing)".
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
         }
     }
 }
