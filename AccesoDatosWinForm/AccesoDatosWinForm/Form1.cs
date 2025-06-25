@@ -77,19 +77,19 @@ namespace AccesoDatosWinForm
             //    );
             //dgv.DataSource = dt;
 
-            using (var ad = new AccesoDatosMySql(
-                "localhost", "nwind",
-                "root", "700r", 3306
-                ))
-            {
-                var dt = ad.queryTable(
-                "SELECT * FROM products",
-                null
-                );
-                dgv.DataSource = dt;
-            }
+            //using (var ad = new AccesoDatosMySql(
+            //    "localhost", "nwind",
+            //    "root", "700r", 3306
+            //    ))
+            //{
+            //    var dt = ad.queryTable(
+            //    "SELECT * FROM products",
+            //    null
+            //    );
+            //    dgv.DataSource = dt;
+            //}
 
-            
+            dgv.DataSource = new DAOCategory().getAll();
         }
 
         private async void btnSaveAsync_Click(object sender, EventArgs e)
