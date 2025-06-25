@@ -11,28 +11,42 @@ namespace AccesoDatosWinForm
 
         private void btnGuardar_Click(object sender, EventArgs e)
         {
-            var conn = new AccesoDatosMySql("localhost", "nwind",
-                "root", "700r", 3306);
+            //var conn = new AccesoDatosMySql("localhost", "nwind",
+            //    "root", "700r", 3306);
 
+            ////var resukt = conn.ejecutarSentencia(
+            ////    "INSERT INTO categories (categoryname, description) " +
+            ////    "VALUES ('Anime', 'Los comics japoneses')"
+            ////    );
+
+            //var prmts = new Dictionary<string, object>();
+            //prmts.Add("@category", "Nueva categoria");
+            //prmts.Add("@description", "Nueva descripcion de la categoria");
             //var resukt = conn.ejecutarSentencia(
             //    "INSERT INTO categories (categoryname, description) " +
-            //    "VALUES ('Anime', 'Los comics japoneses')"
+            //    "VALUES (@category, @description)"
+            //    ,
+            //    prmts
             //    );
 
-            var prmts = new Dictionary<string, object>();
-            prmts.Add("@category", "Nueva categoria");
-            prmts.Add("@description", "Nueva descripcion de la categoria");
-            var resukt = conn.ejecutarSentencia(
-                "INSERT INTO categories (categoryname, description) " +
-                "VALUES (@category, @description)"
-                ,
-                prmts
-                );
 
 
+            //MessageBox.Show($"Filas afectas {resukt}");
 
-            MessageBox.Show($"Filas afectas {resukt}");
-
+            if (new DAOCategory().insert(
+                     new model.Category
+                     {
+                         CategoryName = txtName.Text,
+                         Description = txtDescrip.Text
+                     }
+                 )) {
+                
+                MessageBox.Show("Se inserto correctamente");
+                
+                cboCAtegory.Items.Clear();
+                cboCAtegory.DataSource = new DAOCategory().getAll();
+            }
+            
 
         }
 

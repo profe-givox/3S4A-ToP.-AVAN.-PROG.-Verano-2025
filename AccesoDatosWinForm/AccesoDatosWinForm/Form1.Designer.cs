@@ -32,6 +32,8 @@
             cboCAtegory = new ComboBox();
             dgv = new DataGridView();
             btnSaveAsync = new Button();
+            txtName = new TextBox();
+            txtDescrip = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgv).BeginInit();
             SuspendLayout();
             // 
@@ -56,7 +58,7 @@
             // dgv
             // 
             dgv.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgv.Location = new Point(12, 65);
+            dgv.Location = new Point(12, 51);
             dgv.Name = "dgv";
             dgv.RowHeadersWidth = 62;
             dgv.Size = new Size(520, 238);
@@ -72,11 +74,27 @@
             btnSaveAsync.UseVisualStyleBackColor = true;
             btnSaveAsync.Click += btnSaveAsync_Click;
             // 
+            // txtName
+            // 
+            txtName.Location = new Point(12, 323);
+            txtName.Name = "txtName";
+            txtName.Size = new Size(337, 31);
+            txtName.TabIndex = 4;
+            // 
+            // txtDescrip
+            // 
+            txtDescrip.Location = new Point(12, 373);
+            txtDescrip.Name = "txtDescrip";
+            txtDescrip.Size = new Size(520, 31);
+            txtDescrip.TabIndex = 5;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(txtDescrip);
+            Controls.Add(txtName);
             Controls.Add(btnSaveAsync);
             Controls.Add(dgv);
             Controls.Add(cboCAtegory);
@@ -86,6 +104,7 @@
             Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgv).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -94,5 +113,7 @@
         private ComboBox cboCAtegory;
         private DataGridView dgv;
         private Button btnSaveAsync;
+        private TextBox txtName;
+        private TextBox txtDescrip;
     }
 }
