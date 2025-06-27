@@ -19,7 +19,7 @@ namespace GetStartedWinFormsEF.data
                 $"Password=700r;" +
                 $"Port=3306;";
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseMySql(conection, MySqlServerVersion.AutoDetect(conection));
+                => optionsBuilder.UseMySql(conection, MySqlServerVersion.AutoDetect(conection));
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
