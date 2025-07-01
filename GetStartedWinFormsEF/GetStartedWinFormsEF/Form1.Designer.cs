@@ -29,78 +29,34 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
-            dataGridViewCategories = new DataGridView();
             dataGridViewProducts = new DataGridView();
-            buttonSave = new Button();
-            productBindingSource = new BindingSource(components);
-            categoryBindingSource = new BindingSource(components);
-            categoryIdDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
-            nameDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
             productIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            nameDataGridViewTextBoxColumn1 = new DataGridViewTextBoxColumn();
+            productsBindingSource = new BindingSource(components);
+            categoryBindingSource = new BindingSource(components);
+            dataGridViewCategories = new DataGridView();
+            categoryIdDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
             nameDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)dataGridViewCategories).BeginInit();
+            buttonSave = new Button();
+            dataGridView1 = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)productBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)productsBindingSource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)categoryBindingSource).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCategories).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
-            // 
-            // dataGridViewCategories
-            // 
-            dataGridViewCategories.AutoGenerateColumns = false;
-            dataGridViewCategories.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCategories.Columns.AddRange(new DataGridViewColumn[] { productIdDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn });
-            dataGridViewCategories.DataSource = productBindingSource;
-            dataGridViewCategories.Location = new Point(38, 31);
-            dataGridViewCategories.Name = "dataGridViewCategories";
-            dataGridViewCategories.RowHeadersWidth = 62;
-            dataGridViewCategories.Size = new Size(360, 324);
-            dataGridViewCategories.TabIndex = 0;
             // 
             // dataGridViewProducts
             // 
             dataGridViewProducts.AutoGenerateColumns = false;
             dataGridViewProducts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewProducts.Columns.AddRange(new DataGridViewColumn[] { categoryIdDataGridViewTextBoxColumn1, nameDataGridViewTextBoxColumn1 });
-            dataGridViewProducts.DataSource = categoryBindingSource;
-            dataGridViewProducts.Location = new Point(414, 31);
+            dataGridViewProducts.Columns.AddRange(new DataGridViewColumn[] { productIdDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn1 });
+            dataGridViewProducts.DataSource = productsBindingSource;
+            dataGridViewProducts.Location = new Point(419, 12);
             dataGridViewProducts.Name = "dataGridViewProducts";
             dataGridViewProducts.RowHeadersWidth = 62;
             dataGridViewProducts.Size = new Size(360, 324);
-            dataGridViewProducts.TabIndex = 1;
-            // 
-            // buttonSave
-            // 
-            buttonSave.Location = new Point(651, 389);
-            buttonSave.Name = "buttonSave";
-            buttonSave.Size = new Size(112, 34);
-            buttonSave.TabIndex = 2;
-            buttonSave.Text = "Guardar";
-            buttonSave.UseVisualStyleBackColor = true;
-            // 
-            // productBindingSource
-            // 
-            productBindingSource.DataSource = typeof(model.Product);
-            // 
-            // categoryBindingSource
-            // 
-            categoryBindingSource.DataSource = typeof(model.Category);
-            // 
-            // categoryIdDataGridViewTextBoxColumn1
-            // 
-            categoryIdDataGridViewTextBoxColumn1.DataPropertyName = "CategoryId";
-            categoryIdDataGridViewTextBoxColumn1.HeaderText = "CategoryId";
-            categoryIdDataGridViewTextBoxColumn1.MinimumWidth = 8;
-            categoryIdDataGridViewTextBoxColumn1.Name = "categoryIdDataGridViewTextBoxColumn1";
-            categoryIdDataGridViewTextBoxColumn1.ReadOnly = true;
-            categoryIdDataGridViewTextBoxColumn1.Width = 150;
-            // 
-            // nameDataGridViewTextBoxColumn1
-            // 
-            nameDataGridViewTextBoxColumn1.DataPropertyName = "Name";
-            nameDataGridViewTextBoxColumn1.HeaderText = "Name";
-            nameDataGridViewTextBoxColumn1.MinimumWidth = 8;
-            nameDataGridViewTextBoxColumn1.Name = "nameDataGridViewTextBoxColumn1";
-            nameDataGridViewTextBoxColumn1.Width = 150;
+            dataGridViewProducts.TabIndex = 0;
             // 
             // productIdDataGridViewTextBoxColumn
             // 
@@ -111,6 +67,45 @@
             productIdDataGridViewTextBoxColumn.ReadOnly = true;
             productIdDataGridViewTextBoxColumn.Width = 150;
             // 
+            // nameDataGridViewTextBoxColumn1
+            // 
+            nameDataGridViewTextBoxColumn1.DataPropertyName = "Name";
+            nameDataGridViewTextBoxColumn1.HeaderText = "Name";
+            nameDataGridViewTextBoxColumn1.MinimumWidth = 8;
+            nameDataGridViewTextBoxColumn1.Name = "nameDataGridViewTextBoxColumn1";
+            nameDataGridViewTextBoxColumn1.Width = 150;
+            // 
+            // productsBindingSource
+            // 
+            productsBindingSource.DataMember = "Products";
+            productsBindingSource.DataSource = categoryBindingSource;
+            // 
+            // categoryBindingSource
+            // 
+            categoryBindingSource.DataSource = typeof(model.Category);
+            // 
+            // dataGridViewCategories
+            // 
+            dataGridViewCategories.AutoGenerateColumns = false;
+            dataGridViewCategories.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewCategories.Columns.AddRange(new DataGridViewColumn[] { categoryIdDataGridViewTextBoxColumn, nameDataGridViewTextBoxColumn });
+            dataGridViewCategories.DataSource = categoryBindingSource;
+            dataGridViewCategories.Location = new Point(12, 12);
+            dataGridViewCategories.Name = "dataGridViewCategories";
+            dataGridViewCategories.RowHeadersWidth = 62;
+            dataGridViewCategories.Size = new Size(360, 324);
+            dataGridViewCategories.TabIndex = 1;
+            dataGridViewCategories.SelectionChanged += dataGridViewCategories_SelectionChanged;
+            // 
+            // categoryIdDataGridViewTextBoxColumn
+            // 
+            categoryIdDataGridViewTextBoxColumn.DataPropertyName = "CategoryId";
+            categoryIdDataGridViewTextBoxColumn.HeaderText = "CategoryId";
+            categoryIdDataGridViewTextBoxColumn.MinimumWidth = 8;
+            categoryIdDataGridViewTextBoxColumn.Name = "categoryIdDataGridViewTextBoxColumn";
+            categoryIdDataGridViewTextBoxColumn.ReadOnly = true;
+            categoryIdDataGridViewTextBoxColumn.Width = 150;
+            // 
             // nameDataGridViewTextBoxColumn
             // 
             nameDataGridViewTextBoxColumn.DataPropertyName = "Name";
@@ -119,33 +114,56 @@
             nameDataGridViewTextBoxColumn.Name = "nameDataGridViewTextBoxColumn";
             nameDataGridViewTextBoxColumn.Width = 150;
             // 
+            // buttonSave
+            // 
+            buttonSave.Location = new Point(664, 364);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(112, 34);
+            buttonSave.TabIndex = 2;
+            buttonSave.Text = "Guardar";
+            buttonSave.UseVisualStyleBackColor = true;
+            buttonSave.Click += buttonSave_Click_1;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(805, 12);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(446, 324);
+            dataGridView1.TabIndex = 3;
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1273, 431);
+            Controls.Add(dataGridView1);
             Controls.Add(buttonSave);
-            Controls.Add(dataGridViewProducts);
             Controls.Add(dataGridViewCategories);
+            Controls.Add(dataGridViewProducts);
             Name = "MainForm";
             Text = "Products and Categories";
-            ((System.ComponentModel.ISupportInitialize)dataGridViewCategories).EndInit();
+            Load += MainForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewProducts).EndInit();
-            ((System.ComponentModel.ISupportInitialize)productBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)productsBindingSource).EndInit();
             ((System.ComponentModel.ISupportInitialize)categoryBindingSource).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewCategories).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private DataGridView dataGridViewCategories;
         private DataGridView dataGridViewProducts;
-        private Button buttonSave;
-        private BindingSource productBindingSource;
+        private DataGridView dataGridViewCategories;
+        private DataGridViewTextBoxColumn categoryIdDataGridViewTextBoxColumn;
+        private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
         private BindingSource categoryBindingSource;
         private DataGridViewTextBoxColumn productIdDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn;
-        private DataGridViewTextBoxColumn categoryIdDataGridViewTextBoxColumn1;
         private DataGridViewTextBoxColumn nameDataGridViewTextBoxColumn1;
+        private BindingSource productsBindingSource;
+        private Button buttonSave;
+        private DataGridView dataGridView1;
     }
 }

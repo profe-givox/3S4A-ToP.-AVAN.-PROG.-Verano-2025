@@ -1,4 +1,5 @@
 using GetStartedWinFormsEF.data;
+using GetStartedWinFormsEF.model;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 
@@ -26,6 +27,10 @@ namespace GetStartedWinFormsEF
             this.dbContext.Categories.Load();
 
             this.categoryBindingSource.DataSource = dbContext.Categories.Local.ToBindingList();
+
+            dataGridView1.DataSource = dbContext!.Categories
+                .Where(c => (c.Name.StartsWith("A") && c.Name.EndsWith("a")  ))
+                .ToList();
         }
 
         protected override void OnClosing(CancelEventArgs e)
@@ -34,6 +39,32 @@ namespace GetStartedWinFormsEF
 
             this.dbContext?.Dispose();
             this.dbContext = null;
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+           
+        }
+
+        private void dataGridViewCategories_SelectionChanged(object sender, EventArgs e)
+        {
+            if (this.dbContext != null)
+            {
+                var category =
+                    (Category)this.dataGridViewCategories.CurrentRow.DataBoundItem;
+
+                if (category != null)
+                {
+                    this.dbContext.Entry(category).Collection(e => e.Products).Load();
+                }
+            }
+        }
+
+        private void buttonSave_Click_1(object sender, EventArgs e)
+        {
+            dbContext!.SaveChanges();
+            this.dataGridViewCategories.Refresh();
+            this.dataGridViewProducts.Refresh();
         }
     }
 }
