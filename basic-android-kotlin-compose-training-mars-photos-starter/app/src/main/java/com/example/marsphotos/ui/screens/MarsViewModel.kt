@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marsphotos.network.MarsApi
+import com.example.marsphotos.network.MiApi
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -33,35 +34,61 @@ sealed interface MarsUiState {
 
 class MarsViewModel : ViewModel() {
     /** The mutable State that stores the status of the most recent request */
-    var marsUiState:  MarsUiState by  mutableStateOf(MarsUiState.Loading )
+    var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
         private set
 
     /**
      * Call getMarsPhotos() on init so we can display status immediately.
      */
     init {
-        getMarsPhotos()
+        //getMarsPhotos()
+        getInvitados()
     }
 
     /**
      * Gets Mars photos information from the Mars API Retrofit service and updates the
      * [MarsPhoto] [List] [MutableList].
      */
-    fun getMarsPhotos() {
+    fun getInvitados() {
         //marsUiState = "Set the Mars API status response here!"
         viewModelScope.launch {
 
-             marsUiState = try {
-                val listResult = MarsApi.retrofitService.getPhotos()
-                 listResult.forEach {
-                     Log.d("id: ${it.id}", "${it.imgSrc}")
-                 }
-                MarsUiState.Success("Success: ${listResult.size} Mars photos retrieved")
-            }catch (e: IOException){
+            marsUiState = try {
+                //val listResult = MarsApi.retrofitService.getPhotos()
+                val listResult = MiApi.retrofitServiceMiApi.getInvitados()
+                listResult.forEach {
+                    //Log.d("id: ${it.id}", "${it.imgSrc}")
+                    Log.d("id: ${it.id}", "${it.nombre}")
+                }
+                //MarsUiState.Success("Success: ${listResult.size} Mars photos retrieved")
+                MarsUiState.Success("Success: ${listResult.size} Invitados retrieved")
+            } catch (e: IOException) {
+                Log.d("Error en invocacion de API", "${e.message}")
                 MarsUiState.Error
             }
 
         }
 
+        /**
+         * Gets Mars photos information from the Mars API Retrofit service and updates the
+         * [MarsPhoto] [List] [MutableList].
+         */
+        fun getMarsPhotos() {
+            //marsUiState = "Set the Mars API status response here!"
+            viewModelScope.launch {
+
+                marsUiState = try {
+                    val listResult = MarsApi.retrofitService.getPhotos()
+                    listResult.forEach {
+                        Log.d("id: ${it.id}", "${it.imgSrc}")
+                    }
+                    MarsUiState.Success("Success: ${listResult.size} Mars photos retrieved")
+                } catch (e: IOException) {
+                    MarsUiState.Error
+                }
+
+            }
+
+        }
     }
 }
