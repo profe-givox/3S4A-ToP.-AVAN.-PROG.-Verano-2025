@@ -31,4 +31,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<SCARContext>();
+
+    dbContext.Database.EnsureDeleted();
+    dbContext.Database.EnsureCreated();
+    //dbContext.Database.Migrate();
+}
+
 app.Run();
