@@ -15,6 +15,7 @@
  */
 package com.example.marsphotos.ui.screens
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,10 +24,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -83,6 +91,54 @@ fun ResultScreen(photos: String, modifier: Modifier = Modifier) {
         modifier = modifier
     ) {
         Text(text = photos)
+    }
+}
+
+/**
+ * Composable que genera y muestra un código QR a partir de un contenido dado.
+ * Muestra un indicador de carga mientras el QR se está generando.
+ *
+ * @param qrContent La cadena de texto a codificar en el QR (ej. la URL con el token).
+ * @param qrSize El tamaño deseado (ancho y alto) del QR en dp.
+ * @param modifier El modificador para aplicar al Box contenedor.
+ */
+@Composable
+fun QrCodeDisplay( viewModel: MarsViewModel ,qrContent: String, qrSize: Int = 200, modifier: Modifier = Modifier) {
+    // Estado para almacenar el Bitmap del QR generado
+    var qrBitmap by remember { mutableStateOf<Bitmap?>(null) }
+    // Estado para controlar si el QR se está generando
+    var isLoading by remember { mutableStateOf(true) }
+
+    // LaunchedEffect se usa para ejecutar operaciones asíncronas
+    // cuando el Composable entra en la composición y se cancela cuando sale.
+    // Se relanza si qrContent cambia.
+    LaunchedEffect(qrContent) {
+        isLoading = true // Inicia la carga
+        qrBitmap = viewModel.generarQrBitmap(qrContent, qrSize.dp.value.toInt()) // Llama a la función suspendida
+        isLoading = false // Finaliza la carga
+    }
+
+    Box(
+        modifier = modifier.size(qrSize.dp), // El tamaño del Box es el mismo que el QR
+        contentAlignment = Alignment.Center
+    ) {
+        if (isLoading) {
+            // Muestra un indicador de progreso mientras se genera el QR
+            CircularProgressIndicator(modifier = Modifier.size(48.dp))
+        } else {
+            qrBitmap?.let {
+                // Muestra el Bitmap del QR una vez generado
+                Image(
+                    bitmap = it.asImageBitmap(), // Convierte el Bitmap de Android a ImageBitmap de Compose
+                    contentDescription = "Código QR para acceso",
+                    modifier = Modifier.fillMaxSize() // El QR ocupa todo el Box
+                )
+            } ?: run {
+                // Mensaje de error si el QR no se pudo generar
+                // Puedes poner un icono de error o un texto aquí
+                // Text("Error al cargar QR", color = Color.Red)
+            }
+        }
     }
 }
 
