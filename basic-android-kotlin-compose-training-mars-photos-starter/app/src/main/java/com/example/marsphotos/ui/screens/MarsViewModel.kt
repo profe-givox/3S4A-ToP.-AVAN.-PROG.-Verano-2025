@@ -15,6 +15,7 @@
  */
 package com.example.marsphotos.ui.screens
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.util.Log
@@ -25,6 +26,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marsphotos.network.MarsApi
 import com.example.marsphotos.network.MiApi
+import com.example.marsphotos.shareBitmap
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.coroutines.Dispatchers
@@ -161,5 +163,10 @@ class MarsViewModel : ViewModel() {
                 null
             }
         }
+    }
+
+    fun share(context: Context, bitmap: Bitmap, string: String) {
+        shareBitmap(context, bitmap, string)
+
     }
 }

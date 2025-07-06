@@ -18,6 +18,7 @@
 
 package com.example.marsphotos.ui
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -41,10 +42,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.marsphotos.R
+import com.example.marsphotos.shareBitmap
 import com.example.marsphotos.ui.screens.HomeScreen
 import com.example.marsphotos.ui.screens.MarsViewModel
 import com.example.marsphotos.ui.screens.QrCodeDisplay
@@ -66,8 +69,13 @@ fun MarsPhotosApp() {
                 HomeScreen(
                     marsUiState = marsViewModel.marsUiState)
 
+
                 // Estado para almacenar el contenido actual del QR
+                val context = LocalContext.current // Obtener el contexto actual de Compose
+
                 var currentQrContent by remember { mutableStateOf("") }
+                // Estado para guardar el Bitmap del QR una vez generado
+                var generatedQrBitmap by remember { mutableStateOf<Bitmap?>(null) }
 
                 Column(
                     modifier = Modifier
@@ -94,12 +102,44 @@ fun MarsPhotosApp() {
 
                     // Muestra el QR solo si hay contenido
                     if (currentQrContent.isNotEmpty()) {
-                        QrCodeDisplay( viewModel = marsViewModel , qrContent = currentQrContent, qrSize = 250)
+                        // Usamos un Box para contener el QrCodeDisplay y poder capturar el Bitmap
+                        // Puedes pasar un callback a QrCodeDisplay para que devuelva el Bitmap
+                        // o almacenar el resultado de generarQrBitmap directamente aquí.
+                        // Para simplicidad, voy a rehacer una pequeña parte aquí o pasar un lambda.
+
+                        // Opción 1: Generar el bitmap directamente en este Composable y pasarlo al QrCodeDisplay
+                        // Para no duplicar lógica, podemos hacer que QrCodeDisplay exponga un callback.
+
+                        // Opción 2 (más limpia): QrCodeDisplay expone un callback para el bitmap
+                        QrCodeDisplay(marsViewModel,
+                            qrContent = currentQrContent,
+                            qrSize = 250,
+                            onQrBitmapReady = { bitmap ->
+                                generatedQrBitmap = bitmap // Captura el bitmap cuando esté listo
+                            }
+                        )
+
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(text = "Contenido del QR: $currentQrContent", style = MaterialTheme.typography.bodySmall)
+
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        // Botón de Compartir, habilitado solo si el Bitmap está listo
+                        Button(
+                            onClick = {
+                                generatedQrBitmap?.let {
+                                    marsViewModel.share(context, it, "qr_invitado.png")
+                                }
+                            },
+                            enabled = generatedQrBitmap != null // El botón se habilita cuando el bitmap está listo
+                        ) {
+                            Text("Compartir QR")
+                        }
+
                     } else {
                         Text("Presiona el botón para generar un QR.")
                     }
+
                 }
             }
 
