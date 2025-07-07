@@ -71,8 +71,8 @@ class MarsViewModel : ViewModel() {
                 }
                 //MarsUiState.Success("Success: ${listResult.size} Mars photos retrieved")
                 MarsUiState.Success("Success: ${listResult.size} Invitados retrieved")
-            } catch (e: IOException) {
-                Log.d("Error en invocacion de API", "${e.message}")
+            } catch (e: Exception) {
+                //Log.d("Error en invocacion de API", "${e.message}")
                 MarsUiState.Error
             }
 
